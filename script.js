@@ -16,6 +16,31 @@ const keys = {
 	}
 }
 
+class Sprite{
+	constructor({position, imageSrc}){
+		this.position = position;
+		this.image = new Image()
+		this.image.onload = () => {
+			this.loaded = true
+		}
+		this.image.src = imageSrc
+
+		this.loaded = false;
+	}
+	draw(){
+		if (!this.loaded) return
+		c.drawImage(this.image, this.position.x, this.position.y)
+	}
+}
+
+const backgroundLevel1 = new Sprite({
+	position: {
+		x: 0,
+		y: 0
+	},
+	imageSrc: './img/backgroundLevel1.png'
+})
+
 class Player {
 	constructor(){
 		this.position = { x: 100, y: 100 }
@@ -49,8 +74,8 @@ const player = new Player()
 
 function animate(){
 	requestAnimationFrame(animate)
-	c.fillStyle = 'white'
-	c.fillRect(0, 0, canvas.width, canvas.height)
+
+	backgroundLevel1.draw()
 
 	player.velocity.x = 0
 	if (keys.d.pressed) player.velocity.x = 1
