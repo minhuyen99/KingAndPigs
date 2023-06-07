@@ -145,8 +145,8 @@ function animate(){
 	})
 
 	player.velocity.x = 0
-	if (keys.d.pressed) player.velocity.x = 1
-	else if (keys.a.pressed) player.velocity.x = -1
+	if (keys.d.pressed) player.velocity.x = 5
+	else if (keys.a.pressed) player.velocity.x = -5
 
 	player.draw()
 	player.update()
