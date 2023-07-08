@@ -18,7 +18,37 @@ const backgroundLevel1 = new Sprite({
 const player = new Player({ 
     collisionBlocks, 
     imageSrc: './img/king/idle.png', 
-    frameRate: 11 
+    frameRate: 11,
+    animations: {
+        idleRight: {
+            frameRate: 11,
+            frameBuffer: 2,
+            loop: true,
+            imageSrc: './img/king/idle.png',
+            image: new Image()
+        },
+        idleLeft: {
+            frameRate: 11,
+            frameBuffer: 2,
+            loop: true,
+            imageSrc: './img/king/idleLeft.png',
+            image: new Image()
+        },
+        runRight: {
+            frameRate: 8,
+            frameBuffer: 4,
+            loop: true,
+            imageSrc: './img/king/runRight.png',
+            image: new Image()
+        },
+        runLeft: {
+            frameRate: 8,
+            frameBuffer: 4,
+            loop: true,
+            imageSrc: './img/king/runLeft.png',
+            image: new Image()
+        }
+    }
 })
 
 const keys = {
@@ -43,9 +73,16 @@ function animate(){
 
     player.velocity.x = 0
     if (keys.d.pressed){
+        player.switchSprite('runRight')
         player.velocity.x = 4
+        player.lastDirection = 'right'
     } else if (keys.a.pressed){
+        player.switchSprite('runLeft')
         player.velocity.x = -4
+        player.lastDirection = 'left'
+    } else {
+        if (player.lastDirection == 'left') player.switchSprite('idleLeft')
+        else player.switchSprite('idleRight')
     }
 
     player.draw()
