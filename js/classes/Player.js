@@ -24,17 +24,19 @@ class Player extends Sprite{
             const block = this.collisionBlocks[i];
 
             // if a collision exists
-            if (this.position.x <= block.position.x + block.width &&
-                this.position.x + this.width >= block.position.x &&
-                this.position.y + this.height >= block.position.y &&
-                this.position.y <= block.position.y + block.height){
+            if (this.hitbox.position.x <= block.position.x + block.width &&
+                this.hitbox.position.x + this.hitbox.width >= block.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= block.position.y &&
+                this.hitbox.position.y <= block.position.y + block.height){
                     if (this.velocity.x < 0){
-                        this.position.x = block.position.x + block.width + 0.01
+                        const offset = this.hitbox.position.x - this.position.x
+                        this.position.x = block.position.x + block.width - offset + 0.01
                         break
                     }
 
                     if (this.velocity.x > 0){
-                        this.position.x = block.position.x - this.width - 0.01
+                        const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+                        this.position.x = block.position.x - offset - 0.01
                         break
                     }
             }
@@ -46,19 +48,21 @@ class Player extends Sprite{
             const block = this.collisionBlocks[i];
 
             // if a collision exists
-            if (this.position.x <= block.position.x + block.width &&
-                this.position.x + this.width >= block.position.x &&
-                this.position.y + this.height >= block.position.y &&
-                this.position.y <= block.position.y + block.height){
+            if (this.hitbox.position.x <= block.position.x + block.width &&
+                this.hitbox.position.x + this.hitbox.width >= block.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= block.position.y &&
+                this.hitbox.position.y <= block.position.y + block.height){
                     if (this.velocity.y < 0){
                         this.velocity.y = 0
-                        this.position.y = block.position.y + block.height + 0.01
+                        const offset = this.hitbox.position.y - this.position.y
+                        this.position.y = block.position.y + block.height - offset + 0.01
                         break
                     }
 
                     if (this.velocity.y > 0){
                         this.velocity.y = 0
-                        this.position.y = block.position.y - this.height - 0.01
+                        const offset = this.hitbox.position.y - this.position.y + this.hitbox.height
+                        this.position.y = block.position.y - offset - 0.01
                         break
                     }
             }
@@ -71,17 +75,39 @@ class Player extends Sprite{
         this.position.y += this.velocity.y
     }
 
+    updateHitbox(){
+        this.hitbox = {
+            position: {
+                x: this.position.x + 58,
+                y: this.position.y + 34
+            },
+            width: 50,
+            height: 50
+        }
+        // c.fillRect(
+        //     this.hitbox.position.x, 
+        //     this.hitbox.position.y, 
+        //     this.hitbox.width, 
+        //     this.hitbox.height
+        // )
+
+    }
+
     update(){
+        // this is the blue box
         // c.fillStyle = 'rgba(0, 0, 255, 0.5)'
         // c.fillRect(this.position.x, this.position.y, this.width, this.height)
 
         this.position.x += this.velocity.x
+        
+        this.updateHitbox()
         // check for horizontal collisions
         this.checkForHorizontalCollisions()
 
         // apply gravity
         this.applyGravity()
 
+        this.updateHitbox()
         // check for vertical collisions
         this.checkForVerticalCollisions()
     }
