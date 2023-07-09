@@ -101,6 +101,7 @@ class Player extends Sprite{
         this.frameRate = this.animations[name].frameRate
         this.frameBuffer = this.animations[name].frameBuffer
         this.loop = this.animations[name].loop
+        this.currentAnimation = this.animations[name]
     }
 
     handleInput(keys){
@@ -109,11 +110,11 @@ class Player extends Sprite{
         this.velocity.x = 0
         if (keys.d.pressed){
             this.switchSprite('runRight')
-            this.velocity.x = 4
+            this.velocity.x = 5
             this.lastDirection = 'right'
         } else if (keys.a.pressed){
             this.switchSprite('runLeft')
-            this.velocity.x = -4
+            this.velocity.x = -5
             this.lastDirection = 'left'
         } else {
             if (this.lastDirection == 'left') this.switchSprite('idleLeft')
